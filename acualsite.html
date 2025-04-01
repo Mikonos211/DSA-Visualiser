@@ -50,14 +50,14 @@
     <div id="header">
         <div style="display: flex; flex-direction: column; align-items: center;">
             <div> Arr range </div>
-            <input type="range" id="ArrRange" min="1" max="25">
+            <input type="range" id="ArrRange" min="2" max="25">
         </div>
         <div style="display: flex; flex-direction: column; align-items: center;">
             <div> Speed  </div>
             <input type="range" id="SpeedRange" min="1" max="400">
         </div>
         <div>
-            <button> Bubble Sort </button>
+            <button onclick="play()"> Bubble Sort </button>
         </div>
         <div>
             <Button> Selection sort </Button>
@@ -77,6 +77,7 @@
     <script>
 
         const arrSize = document.getElementById("ArrRange");
+        const SpeedRange = document.getElementById("SpeedRange")
         let array = [];
 
         arrSize.addEventListener("input", () =>{
@@ -84,16 +85,74 @@
             for(let i = 0; i < +arrSize.value; i++){
                 array[i] = Math.floor(Math.random() * 89) + 10;
             }
+            showbars();
+        })
+
+        function play(){
+            const copy = [...array];
+            const swaps = bubleSort(copy);
+            animate(swaps);
+        }
+
+        function showbars(indices){
             conteiner.innerHTML = "";
             for(let i =0; i < array.length; i++){
                 const bar = document.createElement("div");
                 bar.style.height= array[i]*1+"%";
                 bar.textContent = array[i];
                 bar.classList.add("bars")
+
+                if(indices && indices.includes(i)){
+                    bar.style.backgroundColor = "#DDA853"
+                    bar.style.color = "#183B4E"
+                }
                 conteiner.appendChild(bar);
             }
-            
-        })
+        }
+
+        function bubleSort(arr){
+            const swaps = [];
+            for(let i = 0; i < arr.length - 1; i++){
+                for(let j = 0 ; j < arr.length - i - 1 ; j++){
+                    if(arr[j] > arr[j + 1]){
+                        let tmp = arr[j];
+                        arr[j] = arr[j+1];
+                        arr[j+1] = tmp;
+                        swaps.push([j, j+1])
+                    }
+                }
+            }
+            return swaps;
+        }
+
+        function SelectionSort(arr){
+            for(let i = 0; i < arr.length - 1; i++){
+                let min = i; 
+                for(let j = i + 1; j < arr.length; j++){
+                    if(arr[min] > arr[j]){
+                        min = j;
+                    }    
+                }
+                    let tmp = arr[i];
+                    arr[i] = arr[min];
+                    arr[min] =tmp;
+            }
+        }
+
+
+        function animate(swaps){
+            if(swaps.length === 0){
+                showbars();       
+                return;
+            }
+            const [i, j] = swaps.shift();
+            [array[i], array[j]] = [array[j], array[i]];
+            showbars([i,j]);
+
+            const speed = +SpeedRange.value;
+
+            setTimeout(() => animate(swaps), speed);
+        }
 
 
     </script>
