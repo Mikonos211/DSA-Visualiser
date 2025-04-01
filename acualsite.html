@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        #header{
+            display: flex;
+            justify-content: center;
+            column-gap: 10px;
+            height: 100px;
+            margin: auto;
+            align-items: center;
+            background-color: #27548A;
+        }
+        button{
+            border-radius: 20px;
+            border: none ;
+            background-color: #DDA853;
+            color: black;
+            font-weight:  bold;
+            padding: 5px 10px;
+            cursor: pointer;
+            transition: 0s;
+        }
+        #conteiner{
+            height: 200px;
+            display: flex;
+            justify-content: center;
+            
+            margin: auto;
+        }
+        .bars{     
+            margin: 1px;
+            width: 20px;
+            background-color: #183B4E ;
+            color: #DDA853;
+            text-align: center;
+        }
+
+</style>
+
+</head>
+<body>
+    <div id="header">
+        <div style="display: flex; flex-direction: column; align-items: center;">
+            <div> Arr range </div>
+            <input type="range" id="ArrRange" min="1" max="25">
+        </div>
+        <div style="display: flex; flex-direction: column; align-items: center;">
+            <div> Speed  </div>
+            <input type="range" id="SpeedRange" min="1" max="400">
+        </div>
+        <div>
+            <button> Bubble Sort </button>
+        </div>
+        <div>
+            <Button> Selection sort </Button>
+        </div>
+        <div>
+            <Button> Insertion Sort </Button>
+        </div>
+        <div>
+            <button> Heap Sort </button>
+        </div>
+    </div>
+
+    <div id="conteiner">
+        
+    </div>
+
+    <script>
+
+        const arrSize = document.getElementById("ArrRange");
+        let array = [];
+
+        arrSize.addEventListener("input", () =>{
+            array = [];
+            for(let i = 0; i < +arrSize.value; i++){
+                array[i] = Math.floor(Math.random() * 89) + 10;
+            }
+            conteiner.innerHTML = "";
+            for(let i =0; i < array.length; i++){
+                const bar = document.createElement("div");
+                bar.style.height= array[i]*1+"%";
+                bar.textContent = array[i];
+                bar.classList.add("bars")
+                conteiner.appendChild(bar);
+            }
+            
+        })
+
+
+    </script>
+</body>
+</html>
