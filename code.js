@@ -125,3 +125,45 @@ function SelectionSort(arr){
     }
     return steps;
 }
+
+
+// Radix Sort Functions
+
+function RadixPlay(){
+    shouldStop = false;
+    const copy = [...array];
+    const moves = radixSort(copy);
+    animate(moves);
+}
+
+function radixSort(arr){
+    let maxdigit = +findLargest(arr);
+
+    for(let i = 0; i < maxdigit ; i ++){
+        let digitBuckets = Array.from({ length: 10 }, () => [])
+
+        for (let j = 0; j < arr.length; j ++){
+            let cyfra = getDigit(arr[j], i );
+            digitBuckets[cyfra].push(arr[j])
+        }
+        arr = [].concat(...digitBuckets);
+        console.log(arr)
+    }
+    return arr;
+}
+
+
+function getDigit(num, palce){
+    return Math.floor(num / Math.pow(10, palce)) % 10;
+}
+
+function findLargest(arr){
+    let max = 0;
+    arr.forEach(element => {
+        if(element > max){
+            max = element
+        }
+    });
+    let lengthOfMax = max.toString().length;
+    return lengthOfMax;
+}
