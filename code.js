@@ -10,11 +10,18 @@ arrSize.addEventListener("input", () =>{
     shouldStop = true;
     sortedIndices = [];
     array = [];
+    clearBucketDiv()
     for(let i = 0; i < +arrSize.value; i++){
         array[i] = Math.floor(Math.random() * 89) + 10;
     }
     showbars();
 })
+
+function clearBucketDiv(){
+    const bucketDiv = document.getElementById("bucket");
+    bucketDiv.innerHTML = ""
+
+}
 
 function showbars(move){
     conteiner.innerHTML = "";
