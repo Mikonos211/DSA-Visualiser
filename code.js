@@ -128,28 +128,92 @@ function SelectionSort(arr){
 
 
 // Radix Sort Functions
+function createBucets(){
+    bucket.innerHTML = "";
+    for(let i =0; i < 10; i++){
+        const buc = document.createElement("div");
+        buc.classList.add("bucket")
+        buc.id = i
+        bucket.appendChild(buc);
+    }
+}
+
+
 
 function RadixPlay(){
+    createBucets();
     shouldStop = false;
     const copy = [...array];
     const moves = radixSort(copy);
-    animate(moves);
+    animateRadix(moves);
+}
+
+function animateRadix(moves){
+    if(shouldStop || moves.length === 0){
+        showbars();       
+        return;
+    }
+
+    const move = moves.shift();
+   
+    if(move.type === "re"){
+        clearBuckets();
+    }
+    if (move.type === "toSwap") {
+        array = [...move.indices];  
+        showbars();                 
+    } else {
+        showbars(move);
+        if (move.type === "put") {
+            const bucketElement = document.getElementById(move.bucketIndex.toString());
+            if (bucketElement) {
+                const elem = document.createElement("div");
+                elem.textContent = move.value;
+                elem.classList.add("bucket-item");
+                bucketElement.appendChild(elem);
+            }
+        }          
+    }
+
+
+    const speed = +SpeedRange.value;
+
+    setTimeout(() => animateRadix(moves), speed);
+
+
 }
 
 function radixSort(arr){
+    let steps = [];
     let maxdigit = +findLargest(arr);
+
 
     for(let i = 0; i < maxdigit ; i ++){
         let digitBuckets = Array.from({ length: 10 }, () => [])
-
         for (let j = 0; j < arr.length; j ++){
             let cyfra = getDigit(arr[j], i );
             digitBuckets[cyfra].push(arr[j])
+            steps.push({ type: "swap", indices: [j, j] });
+            steps.push({ 
+                type: "put", 
+                indices: [j], 
+                value: arr[j], 
+                bucketIndex: cyfra 
+            }); 
         }
+        steps.push({ type: "re", indices: [i]})
+        
         arr = [].concat(...digitBuckets);
-        console.log(arr)
+        steps.push({ type: "toSwap", indices: arr })
     }
-    return arr;
+        return steps;
+}
+
+function clearBuckets() {
+    const buckets = document.querySelectorAll(".bucket-item");
+    buckets.forEach(bucket => {
+        bucket.remove();
+    });
 }
 
 
