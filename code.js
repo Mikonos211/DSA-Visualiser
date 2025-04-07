@@ -137,24 +137,32 @@ function SelectionSort(arr){
 function InsertionPlay(){
     shouldStop = false
     const copy = [...array];
-    const steps = SelectionSort(copy);
+    const steps = InsertionSort(copy);
     animate(steps);
 }
 
 function InsertionSort(arr){
     const steps = [];
 
-    for(let i = 0; i < arr.length; i++){
-        let tmp = i;
-        let j = i -1;
+    let n = arr.length
+    for(let i = 1; i < n; i ++){
+       tmp = arr[i];
+       let j = i - 1;
+       steps.push({ type: "select-min", indices: [i] }); 
+
        while(j >= 0 && arr[j] > tmp){
-        arr[j + 1] = arr[j]
-        j--
+        steps.push({type: "compere", indices: [j]})
+
+        arr[j + 1] = arr[j];
+
+        steps.push({ type: "swap", indices: [ j + 1 , j] });
+        j--; 
        }
        arr[j + 1] = tmp;
     }
     return steps;
 }
+
 
 
 
