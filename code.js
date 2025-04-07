@@ -133,6 +133,31 @@ function SelectionSort(arr){
     return steps;
 }
 
+//Insertion sort Functions
+function InsertionPlay(){
+    shouldStop = false
+    const copy = [...array];
+    const steps = SelectionSort(copy);
+    animate(steps);
+}
+
+function InsertionSort(arr){
+    const steps = [];
+
+    for(let i = 0; i < arr.length; i++){
+        let tmp = i;
+        let j = i -1;
+       while(j >= 0 && arr[j] > tmp){
+        arr[j + 1] = arr[j]
+        j--
+       }
+       arr[j + 1] = tmp;
+    }
+    return steps;
+}
+
+
+
 
 // Radix Sort Functions
 function createBucets(){
@@ -238,3 +263,4 @@ function findLargest(arr){
     let lengthOfMax = max.toString().length;
     return lengthOfMax;
 }
+
